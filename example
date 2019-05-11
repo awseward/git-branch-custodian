@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+script_dir="$(dirname "$0")"
+
+# This is a real rough cut, and kind of cheating, since it has so many
+# dependencies on things already built elsewhere.
+
+repos_config='https://raw.githubusercontent.com/awseward/dotfiles/1c61610d45b5118117139794f9cc109dc0ebcbd6/misc-experimental/repos.dhall'
+
+dhall-to-json <<< $repos_config \
+  | jq -cM '.[]' \
+  | while read line; do
+      "$script_dir/gcj" grab_local_path "$line"
+    done \
+  | xargs -I '{}' zsh -c 'source $HOME/.zshrc && echo "{}" && cd "{}" && git_delete_pruneable_branches'
