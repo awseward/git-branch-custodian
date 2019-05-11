@@ -2,4 +2,34 @@
 
 set -euo pipefail
 
-2>&1 echo "Nothing here yet." && exit 1
+# script_dir="$(dirname "$0")"
+
+# echo "$script_dir"
+# source "$script_dir/lib"
+
+grab_remote_url() {
+  local remote_url=$(jq -rcM '.remoteUrl' <<< "$1")
+  echo "$remote_url"
+}
+
+grab_repo_name() {
+  local repo_name=$(jq -rcM '.repoName' <<< "$1")
+  echo "$repo_name"
+}
+
+grab_local_path() {
+  local local_path=$(jq -rcM '.localPath' <<< "$1")
+  echo "$local_path"
+}
+
+grab_owner() {
+  local owner=$(jq -rcM '.owner' <<< "$1")
+  echo "$owner"
+}
+
+grab_language() {
+  local language=$(jq -rcM '.language' <<< "$1")
+  echo "$language"
+}
+
+$@
