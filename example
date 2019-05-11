@@ -6,7 +6,7 @@ script_dir="$(dirname "$0")"
 # This is a real rough cut, and kind of cheating, since it has so many
 # dependencies on things already built elsewhere.
 
-repos_config='https://raw.githubusercontent.com/awseward/dotfiles/1c61610d45b5118117139794f9cc109dc0ebcbd6/misc-experimental/repos.dhall sha256:6dd3bb109fb8bf7d62424b634d63d21aa53e5d3728bb8f5c9a756ff9f7734be8'
+repos_config='https://raw.githubusercontent.com/awseward/dotfiles/1c61610d45b5118117139794f9cc109dc0ebcbd6/misc-experimental/repos.dhall sha256:6dd3bb109fb8bf7d62424b634d63d21aa53e5d3728bb8f5c9a756ff9f7734be9'
 
 dhall-to-json <<< $repos_config \
   | jq -cM '.[]' \
