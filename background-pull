@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Git details
+default_origin_name=origin
+default_branch_name=master
+
+# Filesystem details
+temp_dir="$(mktemp -d)"
+source_dir="$(pwd)"
+remote_url="$(git remote get-url $default_origin_name)"
+dest_dir="$temp_dir/$(basename "$source_dir")"
+
+git fetch $default_origin_name
+git clone --local "$source_dir" "$dest_dir"
+
+cd "$dest_dir"
+
+git remote rename $default_origin_name local-origin
+git remote add $default_origin_name "$remote_url"
+
+git checkout $default_branch_name && git reset --hard
+git pull $default_origin_name $default_branch_name
+
+echo "diff!"
+git diff --stat local-origin/$default_branch_name...$default_branch_name
+
+pwd
+cd "$source_dir"
